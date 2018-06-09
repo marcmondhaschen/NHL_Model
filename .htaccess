@@ -1,0 +1,9 @@
+<FilesMatch "\.(htaccess|ini|inc)">
+Order Deny,Allow
+Deny from All
+Allow from env=REDIRECT_STATUS
+</FilesMatch>
+
+Options -Indexes
+
+php_value max_execution_time 300
