@@ -1,9 +1,12 @@
 <?php
+
 namespace NHL_API_Model\Models;
 
-class APICalls {
-    
-    function APIWrapper($callString, $arrayElement = NULL) {
+class APICalls
+{
+
+    function APIWrapper($callString, $arrayElement = NULL)
+    {
         $cr = curl_init();
         curl_setopt($cr, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($cr, CURLOPT_URL, $callString);
@@ -16,7 +19,7 @@ class APICalls {
                 return [0];
             }
         } catch (Exception $e) {
-            echo "Error calling NHL API: " . $e->getMessage() . "\n";
+            echo "Error calling NHL API: ".$e->getMessage()."\n";
         }
 
         curl_close($cr);
@@ -29,4 +32,3 @@ class APICalls {
         }
     }
 }
-
