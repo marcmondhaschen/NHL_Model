@@ -4,8 +4,7 @@ namespace NHL_API_Model\Models;
 
 class APICalls
 {
-
-    function APIWrapper($callString, $arrayElement = NULL)
+    public function APIWrapper($callString, $arrayElement = NULL)
     {
         $cr = curl_init();
         curl_setopt($cr, CURLOPT_RETURNTRANSFER, 1);

@@ -23,7 +23,7 @@ class Divisions extends APICalls
     public function updateDivisionList()
     {
         #TODO: update this function to test for new division updates, without rewriting the entire list
-        $divisions_array = parent::APIWrapper("https://statsapi.web.nhl.com/api/v1/divisions",
+        $divisions_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/divisions",
                 "divisions");
         $division_count  = count($divisions_array);
 
@@ -45,5 +45,9 @@ class Divisions extends APICalls
                 echo "Error: Some of the data fetched from the NHL API appears to be corrupted.";
             }
         }
+    }
+    public function APIWrapper($callString, $arrayElement = NULL)
+    {
+        parent::APIWrapper($callString, $arrayElement);
     }
 }

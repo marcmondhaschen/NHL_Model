@@ -2,7 +2,7 @@ create database nhl_model;
 
 # CHANGE THIS PASSWORD
 create user `nhl_page_user`@`localhost`
- identified by 'P$Qcy9~b6bNqn;Ks';
+ identified by 'SOME_PASSWORD_OF_YOUR_CHOOSING';
 
 
 # build a table to log attempted logins
@@ -108,3 +108,4 @@ grant select, insert, delete on `nhl_model`.`conferences` to `nhl_page_user`@`lo
 grant select, insert, delete on `nhl_model`.`franchises` to `nhl_page_user`@`localhost`;
 grant select, insert, delete on `nhl_model`.`timezones` to `nhl_page_user`@`localhost`;
 grant select, insert, delete on `nhl_model`.`people` to `nhl_page_user`@`localhost`;
+

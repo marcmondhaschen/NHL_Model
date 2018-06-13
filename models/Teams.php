@@ -1,12 +1,22 @@
 <?php
-/* NOTES ON TEAMS DATA:
- *  Team numbers are not issued or logged sequentially, and are not contiguous
- *  Many teams, including exhibition & All Star Teams, are logged as 'active'
- *  Regular league teams are distinguished by their non-null conferece & division
+/* The Teams class calls hockey team data from the NHL API and stores it to
+ * a MySQL DB.
+ *
+ * PHP version 7.0 
+ *
+ * NOTES ON TEAMS DATA:
+ *  * Team numbers are not issued or logged sequentially, and are not contiguous
+ *  * Many teams, including exhibition & All Star Teams, are logged as 'active'
+ *  * Regular league teams are distinguished by their non-null conferece & division
  *      assignments
- *  The Penguins don't have a firstYearOfPlay entry as of this writing. Correct
+ *  * The Penguins don't have a firstYearOfPlay entry as of this writing. Correct
  *      first year of play for the Penguins is 1967
- *  as of 6/6/18, the highest team id located is 101 (we polled to 1000)
+ *  * As of 6/6/18, the highest team id located is 101 (we polled to 1000)
+ *
+ * @author Marc Mondhaschen <marcmondhaschen@theubiquitousgooglemailservice.com>
+ * @copyright 2018 Marc Mondhaschen
+ * @license https://opensource.org/licenses/mit-license.html
+ * @link https://github.com/marcmondhaschen/NHL_Model
  *  */
 
 namespace NHL_API_Model\Models;
@@ -44,7 +54,7 @@ class Teams extends APICalls
         $this->pdo->query("delete from`nhl_model`.`timezones`;");
 
         while ($i <= $maxTeamFound) {
-            $team_array = parent::APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/".$i,
+            $team_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/".$i,
                     "teams");
 
             $id              = $team_array[0]['id'];
@@ -107,5 +117,9 @@ class Teams extends APICalls
 
             ++$i;
         }
+    }
+    public function APIWrapper($callString, $arrayElement = NULL)
+    {
+        parent::APIWrapper($callString, $arrayElement);
     }
 }

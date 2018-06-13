@@ -21,7 +21,7 @@ class Conferences extends APICalls
 
     public function updateConferenceList()
     {
-        $franchises_array = parent::APIWrapper("https://statsapi.web.nhl.com/api/v1/conferences",
+        $franchises_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/conferences",
                 "conferences");
         $franchise_count  = count($franchises_array);
 
@@ -42,5 +42,10 @@ class Conferences extends APICalls
                 echo "Error: While updating the franchises table, some of the data fetched from the NHL API appears to be corrupted.";
             }
         }
+    }
+
+    public function APIWrapper($callString, $arrayElement = NULL)
+    {
+        parent::APIWrapper($callString, $arrayElement);
     }
 }

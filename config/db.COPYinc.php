@@ -1,4 +1,7 @@
 <?php
+/**
+ *
+ */
 
 $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
@@ -9,7 +12,7 @@ $options = [
 
 try {
     $pdo = new pdo('mysql:host=localhost; dbname=nhl_model', 'nhl_page_user',
-        'P$Qcy9~b6bNqn;Ks', $options);
+        'SOME_PASSWORD_OF_YOUR_CHOOSING', $options);
 } catch (PDOException $e) {
     die(json_encode(array('outcome' => false, 'message' => 'Unable to connect')));
 }

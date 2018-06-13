@@ -1,32 +1,53 @@
 <?php
-
+/**
+ * 
+ */
 namespace NHL_API_Model\Models;
 
 use PDO;
 
-include 'models/APICalls.php'; //parent class
+include 'models/APICalls.php';
 
+
+/**
+ *
+ */
 class People extends APICalls
 {
     protected $pdo;
 
+    /**
+     *
+     * @param PDO $pdo
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getPeopleListAll()
     {
         $result = $this->pdo->query("select * from `nhl_model`.`people` order by `name`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getPeopleListTeam()
     {
         $result = $this->pdo->query("select * from `nhl_model`.`teams` where active = true order by `name`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     *
+     */
     public function updatePeopleList()
     {
         $this->pdo->query("delete from`nhl_model`.`people`;");
@@ -36,7 +57,7 @@ class People extends APICalls
 
         $i = 0;
         while ($i < $people_count) {
-            $people_array = parent::APIWrapper("https://statsapi.web.nhl.com/api/v1/people/".$player_id_array[$i],
+            $people_array = APIWrapper("https://statsapi.web.nhl.com/api/v1/people/".$player_id_array[$i],
                     "people");
 
             $id                 = $people_array[0]['id'];
@@ -104,12 +125,16 @@ class People extends APICalls
         }
     }
 
-    function getPeopleInCurrentRosters()
+
+    /**
+     *
+     * @return type
+     */
+    public function getPeopleInCurrentRosters()
     {
-        $people_array = parent::APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/?teamId=1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,52,53,54&expand=team.roster",
-                "teams");
+        $people_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/?teamId=1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,52,53,54&expand=team.roster","teams");
         $player_ids   = [];
-        $team_count   = count($people_array);
+        $team_count   = count($people_array??array());
 
         for ($i = 0; $i < $team_count; ++$i) {
             $roster_array = $people_array[$i]['roster']['roster'];
@@ -121,5 +146,15 @@ class People extends APICalls
         }
 
         return $player_ids;
+    }
+
+    /**
+     *
+     * @param type $callString
+     * @param type $arrayElement
+     */
+    public function APIWrapper($callString, $arrayElement = NULL)
+    {
+        parent::APIWrapper($callString, $arrayElement);
     }
 }
