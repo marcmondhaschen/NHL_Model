@@ -23,27 +23,45 @@ namespace NHL_API_Model\Models;
 
 use PDO;
 
+/**
+ *
+ */
 class Teams extends APICalls
 {
     protected $pdo;
 
+    /**
+     *
+     * @param PDO $pdo
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getTeamListAll()
     {
         $result = $this->pdo->query("select * from `nhl_model`.`teams` order by `name`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getTeamListActive()
     {
         $result = $this->pdo->query("select * from `nhl_model`.`teams` where active = true order by `name`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     *
+     */
     public function updateTeamList()
     {
         $maxTeamFound = 105;
@@ -118,6 +136,12 @@ class Teams extends APICalls
             ++$i;
         }
     }
+
+    /**
+     *
+     * @param type $callString
+     * @param type $arrayElement
+     */
     public function APIWrapper($callString, $arrayElement = NULL)
     {
         parent::APIWrapper($callString, $arrayElement);

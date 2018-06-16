@@ -10,7 +10,8 @@ include 'models/APICalls.php';
 
 
 /**
- *
+ * Class People
+ * @package Local_NHL_Database
  */
 class People extends APICalls
 {
