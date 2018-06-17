@@ -1,0 +1,18 @@
+{
+    "name": "NHL API ReModel",
+    "description": "This project creates a local, normalized database from queries drawn from the NHL API.",
+    "type": "project",
+    "keywords": [
+        "NHL",
+        "API",
+        "PHP",
+        "guzzle"
+    ],
+    "homepage": "https://github.com/marcmondhaschen/NHL_Model",
+    "license": "",
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "guzzle/guzzle": "~3.9"
+   }
+}

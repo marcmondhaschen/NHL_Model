@@ -1,23 +1,23 @@
 <?php
-/* The Teams class calls hockey team data from the NHL API and stores it to
- * a MySQL DB.
+/*
+ * This file contains the implementation for the NHL API ReModel's "Teams" class.
  *
- * PHP version 7.0 
+ * PHP version 7
  *
- * NOTES ON TEAMS DATA:
- *  * Team numbers are not issued or logged sequentially, and are not contiguous
- *  * Many teams, including exhibition & All Star Teams, are logged as 'active'
- *  * Regular league teams are distinguished by their non-null conferece & division
- *      assignments
- *  * The Penguins don't have a firstYearOfPlay entry as of this writing. Correct
- *      first year of play for the Penguins is 1967
- *  * As of 6/6/18, the highest team id located is 101 (we polled to 1000)
- *
+ * @package NHL_API_ReModel
  * @author Marc Mondhaschen <marcmondhaschen@theubiquitousgooglemailservice.com>
  * @copyright 2018 Marc Mondhaschen
  * @license https://opensource.org/licenses/mit-license.html
  * @link https://github.com/marcmondhaschen/NHL_Model
- *  */
+ *
+ * NOTES ON TEAMS DATA:
+ *  + Team numbers are not issued or logged sequentially, and are not contiguous
+ *  + Many teams, including exhibition & All Star Teams, are logged as 'active'
+ *  + Regular league teams are distinguished by their non-null 'conferece' & 'division' assignments
+ *  + The Penguins don't have a firstYearOfPlay entry as of this writing. Correct first year of play for the Penguins
+ *    is 1967
+ *  + As of 6/6/18, the highest team id located is 101 (we polled to 1000)
+ */
 
 namespace NHL_API_Model\Models;
 

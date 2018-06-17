@@ -1,3 +1,8 @@
 /nbproject
 /config/db.inc.php
 /config/mysql_setup.sql
+test.php
+composer-setup.php
+composer.bat
+composer.phar
+/vendor/
