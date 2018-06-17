@@ -15,10 +15,11 @@
  *
  */
 
-namespace NHL_API_Model\Models;
+namespace NHL_API_Remodel\Models;
 
 use PDO;
 
+include 'classes/APICalls.php';
 /**
  * The FranchiseController Class acts a controller for other classes which provide
  *  + calls to the NHL's open API for franchise data

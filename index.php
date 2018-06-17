@@ -1,20 +1,29 @@
 <?php
-/*
-  author: Marc Mondhaschen
-  date: 2018/06/05
-
-  purpose: this project captures NHL team, player, and game
-  data from the NHL's API to a local MySQL database
+/**
+ * This file is a test page for the NHL API Remodel Project
+ * Future versions of this page will invite users to update and peruse a local copy of the NHL's open API database
+ *
+ * PHP version 7
+ *
+ * @package NHL_API_ReModel
+ * @date: 2018/06/15
+ * @author Marc Mondhaschen <marcmondhaschen@theubiquitousgooglemailservice.com>
+ * @copyright 2018 Marc Mondhaschen
+ * @license https://opensource.org/licenses/mit-license.html
+ * @link https://github.com/marcmondhaschen/NHL_Model
+ *
+ * NOTES ON PEOPLE DATA:
+ *  + People data are associated to Teams data by their currentTeam key
  */
 
 include 'config/db.inc.php';
-include 'models/People.php';
+include 'classes/People/PeopleController.php';
 
-use NHL_API_Model\Models\People as People;
+use NHL_API_Remodel\Models\PeopleController as PeopleController;
 
-$people    = new People($pdo);
+$people    = new PeopleController($pdo);
 $people->updatePeopleList();
-$teamsList = $teams->getTeamListAll();
+$peopleList = $people->getPeopleListAll();
 ?>
 
 
@@ -30,7 +39,7 @@ $teamsList = $teams->getTeamListAll();
 
     <body>
         <div>
-            <?php ?>
+            <?php echo "<pre>";print_r($peopleList);echo "</pre>"; ?>
         </div>
         <script src="js/custom.js"></script>
     </body>

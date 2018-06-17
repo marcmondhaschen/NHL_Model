@@ -11,7 +11,7 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  */
 
-namespace NHL_API_Model\Models;
+namespace NHL_API_Remodel\Models;
 
 /**
  * The APICalls Class makes curl requests to an open API and returns the results as associative arrays
@@ -51,7 +51,8 @@ class APICalls
         curl_close($cr);
         $result_array = json_decode($result_string, true);
 
-        if (isset($arrayElement)) {
+        if (isset($arrayElement) && is_array($result_array)) {
+            //var_dump($result_array[$arrayElement]);
             return $result_array[$arrayElement];
         } else {
             return $result_array;

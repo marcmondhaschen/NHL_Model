@@ -6,3 +6,5 @@ composer-setup.php
 composer.bat
 composer.phar
 /vendor/
+/notes.xlsx
+/~$notes.xlsx

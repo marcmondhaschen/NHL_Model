@@ -22,7 +22,7 @@
  *  + As of 6/6/18, the highest team id located is 101 (we polled to 1000)
  */
 
-namespace NHL_API_Model\Models;
+namespace NHL_API_Remodel\Models;
 
 use PDO;
 

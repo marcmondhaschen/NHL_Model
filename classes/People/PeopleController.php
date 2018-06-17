@@ -14,11 +14,11 @@
  *  + People data are associated to Teams data by their currentTeam key
  */
 
-namespace NHL_API_Model\Models;
+namespace NHL_API_Remodel\Models;
 
 use PDO;
 
-include 'models/APICalls.php';
+include 'classes/APICalls.php';
 
 /**
  * The PeopleController Class acts a controller for other classes which provide
@@ -48,32 +48,42 @@ class PeopleController extends APICalls
      */
     public function getPeopleListAll()
     {
-        $result = $this->pdo->query("select * from `nhl_model`.`people` order by `name`;");
+        $result = $this->pdo->query("select * from `nhl_model`.`people` order by `fullName`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
+     * Sends API call to fetch player ID numbers from all current rosters
      *
-     * @return array an
+     * @access public
+     * @return array the array of player ids from all the current teams' rosters
      */
-    public function getPeopleListTeam()
+    public function getPeopleInCurrentRosters()
     {
-        $result = $this->pdo->query("select * from `nhl_model`.`teams` where active = true order by `name`;");
-        return $result->fetchAll(PDO::FETCH_ASSOC);
-    }
+        #TODO build a call for a list of current team IDs
 
-    /**
+        $rosters_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/?teamId=1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,52,53,54&expand=team.roster", "teams");
+        $player_ids   = array();
+        foreach($rosters_array as $value) {
+            echo $value;
+            $roster_array = array($value['roster']['roster']);
+            foreach($roster_array as $value) {
+                $player_ids = $value['person']['id'];
+            }
+        }
+        return $player_ids;
+    }
+        /**
      *
      */
     public function updatePeopleList()
     {
         #TODO have this return the people list from the call
         $this->pdo->query("delete from`nhl_model`.`people`;");
-
         $player_id_array = $this->getPeopleInCurrentRosters();
         $people_count    = count($player_id_array);
-
         $i = 0;
+
         while ($i < $people_count) {
             $people_array = APIWrapper("https://statsapi.web.nhl.com/api/v1/people/".$player_id_array[$i], "people");
 
@@ -127,34 +137,12 @@ class PeopleController extends APICalls
                     $rosterStatus."', ".
                     $currentTeam.", '".
                     $primaryPosition."');";
-                //echo $peopleQuery . "<br>";
-                $result      = $this->pdo->query($peopleQuery);
+                echo $peopleQuery . "<br>";
+                //$result      = $this->pdo->query($peopleQuery);
             }
 
             ++$i;
         }
-    }
-
-    /**
-     * Sends API call to fetch player ID numbers from all current rosters
-     *
-     * @access public
-     * @return array the array of player ids from all the current teams' rosters
-     */
-    public function getPeopleInCurrentRosters()
-    {
-        #TODO build a call for a list of current team IDs
-        $people_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/?teamId=1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,52,53,54&expand=team.roster",
-            "teams");
-        $player_ids   = [];
-        foreach($people_array as $team_roster_array) {
-            $roster_array = $team_roster_array['roster']['roster'];
-            foreach($roster_array as $roster) {
-                $player_ids[] = $roster['person']['id'];
-            }
-        }
-
-        return $player_ids;
     }
 
     /**

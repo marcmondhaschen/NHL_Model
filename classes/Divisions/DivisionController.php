@@ -11,7 +11,7 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  */
 
-namespace NHL_API_Model\Models;
+namespace NHL_API_Remodel\Models;
 
 use PDO;
 
