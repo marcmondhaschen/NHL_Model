@@ -1,6 +1,6 @@
 <?php
 /*
- * This file contains the implementation for the NHL API ReModel's "Teams" class.
+ * This file contains the implementation for the NHL API ReModel's "TeamController" class.
  *
  * PHP version 7
  *
@@ -11,6 +11,9 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  *
  * NOTES ON TEAMS DATA:
+ *  + Teams are associated to their franchises by the franchiseID key
+ *  + Teams are associated to their division by their division key
+ *  + Teams are associated to their conference by their conference key
  *  + Team numbers are not issued or logged sequentially, and are not contiguous
  *  + Many teams, including exhibition & All Star Teams, are logged as 'active'
  *  + Regular league teams are distinguished by their non-null 'conferece' & 'division' assignments
@@ -24,9 +27,15 @@ namespace NHL_API_Model\Models;
 use PDO;
 
 /**
- *
+ * The TeamController Class acts a controller for other classes which provide
+ *  + calls to the NHL's open API for teams data
+ *  + loads team API data to a local MySQL 'persistent storage area' (PSA)
+ *  + parses batched team API data from the PSA into required updates for 'production analysis' MySQL tables
+ *  + initializes 'teams' database for new installations
+ * 
+ * @package NHL_API_ReModel
  */
-class Teams extends APICalls
+class TeamController extends APICalls
 {
     protected $pdo;
 
@@ -72,8 +81,7 @@ class Teams extends APICalls
         $this->pdo->query("delete from`nhl_model`.`timezones`;");
 
         while ($i <= $maxTeamFound) {
-            $team_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/".$i,
-                    "teams");
+            $team_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/".$i, "teams");
 
             $id              = $team_array[0]['id'];
             $name            = $team_array[0]['name'];

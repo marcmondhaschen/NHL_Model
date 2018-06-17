@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the implementation for the NHL API ReModel's "Conferences" class.
+ * This file contains the implementation for the NHL API ReModel's "ConferenceController" class.
  *
  * PHP version 7
  *
@@ -15,21 +15,41 @@ namespace NHL_API_Model\Models;
 
 use PDO;
 
-class Conferences extends APICalls
+/**
+ * The ConferenceController Class acts a controller for other classes which provide
+ *  + calls to the NHL's open API for conference data
+ *  + loads conference API data to a local MySQL 'persistent storage area' (PSA)
+ *  + parses batched conference API data from the PSA into required updates for 'production analysis' MySQL tables
+ *  + initializes 'conference' database for new installations
+ *
+ * @package NHL_API_ReModel
+ */
+class ConferenceController extends APICalls
 {
     protected $pdo;
 
+    /**
+     *
+     * @param PDO $pdo
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getConferenceList()
     {
         $result = $this->pdo->query("select `id`,`name`,`link`,`abbreviation`,`shortName`,`active` from `nhl_model`.`conferences` order by `name`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     *
+     */
     public function updateConferenceList()
     {
         $franchises_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/conferences",
@@ -55,6 +75,11 @@ class Conferences extends APICalls
         }
     }
 
+    /**
+     *
+     * @param type $callString
+     * @param type $arrayElement
+     */
     public function APIWrapper($callString, $arrayElement = NULL)
     {
         parent::APIWrapper($callString, $arrayElement);

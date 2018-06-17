@@ -13,8 +13,24 @@
 
 namespace NHL_API_Model\Models;
 
+/**
+ * The APICalls Class makes curl requests to an open API and returns the results as associative arrays
+ *
+ * @package NHL_API_ReModel
+ */
 class APICalls
 {
+    /**
+     *
+     * @param type $callString   the URL string to be used for an API call
+     * @param type $arrayElement assuming relevant data is stored in the second layer of a JSON array, it can be
+     *                           within an fetched from inside an element of $arrayElement's name
+     *                           ex: APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/", "teams"); returns a list
+     *                           of all teams in the 'teams' element of the JSON returned by
+     *                           https://statsapi.web.nhl.com/api/v1/teams/
+     * @return type
+     * @throws Exception
+     */
     public function APIWrapper($callString, $arrayElement = NULL)
     {
         $cr = curl_init();

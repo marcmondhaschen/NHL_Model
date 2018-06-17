@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the implementation for the NHL API ReModel's "People" class.
+ * This file contains the implementation for the NHL API ReModel's "PeopleController" class.
  *
  * PHP version 7
  *
@@ -9,6 +9,9 @@
  * @copyright 2018 Marc Mondhaschen
  * @license https://opensource.org/licenses/mit-license.html
  * @link https://github.com/marcmondhaschen/NHL_Model
+ *
+ * NOTES ON PEOPLE DATA:
+ *  + People data are associated to Teams data by their currentTeam key
  */
 
 namespace NHL_API_Model\Models;
@@ -18,10 +21,15 @@ use PDO;
 include 'models/APICalls.php';
 
 /**
- * Class People
- * @package Local_NHL_Database
+ * The PeopleController Class acts a controller for other classes which provide
+ *  + calls to the NHL's open API for player data
+ *  + loads player API data to a local MySQL 'persistent storage area' (PSA)
+ *  + parses batched player API data from the PSA into required updates for 'production analysis' MySQL tables
+ *  + initializes 'people' database for new installations
+ * 
+ * @package NHL_API_ReModel
  */
-class People extends APICalls
+class PeopleController extends APICalls
 {
     protected $pdo;
 
@@ -139,14 +147,10 @@ class People extends APICalls
         $people_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/?teamId=1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,52,53,54&expand=team.roster",
             "teams");
         $player_ids   = [];
-        $team_count   = count($people_array ?? array());
-
-        for ($i = 0; $i < $team_count; ++$i) {
-            $roster_array = $people_array[$i]['roster']['roster'];
-            $roster_count = count($roster_array);
-
-            for ($j = 0; $j < $roster_count; ++$j) {
-                $player_ids[] = $roster_array[$j]['person']['id'];
+        foreach($people_array as $team_roster_array) {
+            $roster_array = $team_roster_array['roster']['roster'];
+            foreach($roster_array as $roster) {
+                $player_ids[] = $roster['person']['id'];
             }
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the implementation for the NHL API ReModel's "Divisions" class.
+ * This file contains the implementation for the NHL API ReModel's "DivisionController" class.
  *
  * PHP version 7
  *
@@ -15,15 +15,32 @@ namespace NHL_API_Model\Models;
 
 use PDO;
 
-class Divisions extends APICalls
+/**
+ * The DivisionController Class acts a controller for other classes which provide
+ *  + calls to the NHL's open API for division data
+ *  + loads division API data to a local MySQL 'persistent storage area' (PSA)
+ *  + parses batched division API data from the PSA into required updates for 'production analysis' MySQL tables
+ *  + initializes 'division' database for new installations
+ *
+ * @package NHL_API_ReModel
+ */
+class DivisionController extends APICalls
 {
     protected $pdo;
 
+    /**
+     *
+     * @param PDO $pdo
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getDivisionList()
     {
         $result = $this->pdo->query("select `id`, `name`, `link`, `abbreviation`, `conference`, `active` from `nhl_model`.`divisions` order by `name`;");
@@ -31,24 +48,23 @@ class Divisions extends APICalls
     }
     #TODO: build a function that grabs inactive as well as active divisions
 
+    /**
+     *
+     */
     public function updateDivisionList()
     {
         #TODO: update this function to test for new division updates, without rewriting the entire list
-        $divisions_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/divisions",
-                "divisions");
-        $division_count  = count($divisions_array);
-
-        $result = $this->pdo->query("delete from`nhl_model`.`divisions`;");
-
-        for ($i = 0; $i < $division_count; ++$i) {
-            if (is_numeric($divisions_array[$i]['id']) && is_string($divisions_array[$i]['name'])) {
+        $divisions_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/divisions", "divisions");
+        $result          = $this->pdo->query("delete from`nhl_model`.`divisions`;");
+        foreach ($divisions_array as $division) {
+            if (is_numeric($division['id']) && is_string($division['name'])) {
                 $query = "insert into `nhl_model`.`divisions` (`id`,`name`,`link`,`abbreviation`,`conference`,`active`) values (".
-                    $divisions_array[$i]['id'].", '".
-                    $divisions_array[$i]['name']."', '".
-                    $divisions_array[$i]['link']."', '".
-                    $divisions_array[$i]['abbreviation']."', ".
-                    $divisions_array[$i]['conference']['id'].", ".
-                    $divisions_array[$i]['active'].
+                    $division['id'].", '".
+                    $division['name']."', '".
+                    $division['link']."', '".
+                    $division['abbreviation']."', ".
+                    $division['conference']['id'].", ".
+                    $division['active'].
                     ");";
 
                 $result = $this->pdo->query($query);
@@ -57,6 +73,12 @@ class Divisions extends APICalls
             }
         }
     }
+
+    /**
+     *
+     * @param type $callString
+     * @param type $arrayElement
+     */
     public function APIWrapper($callString, $arrayElement = NULL)
     {
         parent::APIWrapper($callString, $arrayElement);

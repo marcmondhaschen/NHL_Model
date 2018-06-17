@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the implementation for the NHL API ReModel's "Franchises" class.
+ * This file contains the implementation for the NHL API ReModel's "FranchiseController" class.
  *
  * PHP version 7
  *
@@ -9,44 +9,64 @@
  * @copyright 2018 Marc Mondhaschen
  * @license https://opensource.org/licenses/mit-license.html
  * @link https://github.com/marcmondhaschen/NHL_Model
+ *
+ * NOTES ON FRANCHISE DATA :
+ * + Franchises are associated to teams by mostRecentTeamId
+ *
  */
 
 namespace NHL_API_Model\Models;
 
 use PDO;
 
-class Franchises extends APICalls
+/**
+ * The FranchiseController Class acts a controller for other classes which provide
+ *  + calls to the NHL's open API for franchise data
+ *  + loads franchise API data to a local MySQL 'persistent storage area' (PSA)
+ *  + parses batched franchise API data from the PSA into required updates for 'production analysis' MySQL tables
+ *  + initializes 'franchise' database for new installations
+ *
+ * @package NHL_API_ReModel
+ */
+class FranchiseController extends APICalls
 {
     protected $pdo;
 
+    /**
+     *
+     * @param PDO $pdo
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
+    /**
+     *
+     * @return type
+     */
     public function getFranchiseList()
     {
         $result = $this->pdo->query("select `franchiseId`,`firstSeasonId`,`mostRecentTeamId`,`teamName`,`locationName`,`link` from `nhl_model`.`franchises` order by `teamName`;");
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     *
+     */
     public function updateFranchiseList()
     {
-        $franchises_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/franchises",
-                "franchises");
-        $franchise_count  = count($franchises_array);
-
+        $franchises_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/franchises", "franchises");
         $result = $this->pdo->query("delete from`nhl_model`.`franchises`;");
-
-        for ($i = 0; $i < $franchise_count; ++$i) {
-            if (is_numeric($franchises_array[$i]['franchiseId']) && is_string($franchises_array[$i]['teamName'])) {
+        foreach ($franchises_array as $franchise) {
+            if (is_numeric($franchise['franchiseId']) && is_string($franchise['teamName'])) {
                 $query  = "insert into `nhl_model`.`franchises` (`franchiseId`,`firstSeasonId`,`mostRecentTeamId`,`teamName`,`locationName`,`link`) values (".
-                    $franchises_array[$i]['franchiseId'].", '".
-                    $franchises_array[$i]['firstSeasonId']."', '".
-                    $franchises_array[$i]['mostRecentTeamId']."', '".
-                    $franchises_array[$i]['teamName']."', '".
-                    $franchises_array[$i]['locationName']."', '".
-                    $franchises_array[$i]['link'].
+                    $franchise['franchiseId'].", '".
+                    $franchise['firstSeasonId']."', '".
+                    $franchise['mostRecentTeamId']."', '".
+                    $franchise['teamName']."', '".
+                    $franchise['locationName']."', '".
+                    $franchise['link'].
                     "');";
                 $result = $this->pdo->query($query);
             } else {
@@ -54,7 +74,12 @@ class Franchises extends APICalls
             }
         }
     }
-    
+
+    /**
+     *
+     * @param type $callString
+     * @param type $arrayElement
+     */
     public function APIWrapper($callString, $arrayElement = NULL)
     {
         parent::APIWrapper($callString, $arrayElement);
