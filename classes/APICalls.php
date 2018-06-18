@@ -16,6 +16,9 @@ namespace NHL_API_Remodel\Models;
 /**
  * The APICalls Class makes curl requests to an open API and returns the results as associative arrays
  *
+ * I hand built a bunch of curl stuff and then decided to just make it easy on myself and use Guzzle
+ * All of this stuff is getting deprecated. :)
+ *
  * @package NHL_API_ReModel
  */
 class APICalls

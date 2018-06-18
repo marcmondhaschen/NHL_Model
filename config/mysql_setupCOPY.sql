@@ -32,7 +32,9 @@ create table `nhl_api_remodel_RawPSA`.`conferences` (
 
 # conference data (PSA)
 create table `nhl_api_remodel_PSA`.`conferences` (
-    `id` int(2) primary key unique not null,
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
+    `id` int(2),
     `name` varchar(20),
     `link` varchar(30),
     `abbreviation` varchar(2),
@@ -63,7 +65,9 @@ create table `nhl_api_remodel_RawPSA`.`divisions` (
 
 # divsion data (PSA)
 create table `nhl_api_remodel_PSA`.`divisions` (
-    `id` int(2) primary key unique not null,
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
+    `id` int(2),
     `name` varchar(30),
     `link` varchar(30),
     `abbreviation` varchar(2),
@@ -94,6 +98,8 @@ create table `nhl_api_remodel_RawPSA`.`franchises` (
 
 # franchise data (PSA)
 create table `nhl_api_remodel_PSA`.`franchises` (
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
     `franchiseId` int(2) primary key unique not null,
     `firstSeasonId` varchar(8),
     `mostRecentTeamId` int(3),
@@ -125,6 +131,8 @@ create table `nhl_api_remodel_RawPSA`.`people` (
 
 # people data (PSA)
 create table `nhl_api_remodel_PSA`.`people` (
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
     `id` int(8),
     `fullName` varchar(50),
     `link` varchar(30),
@@ -188,6 +196,8 @@ create table `nhl_api_remodel_RawPSA`.`teams` (
 
 # team data (PSA)
 create table `nhl_api_remodel_PSA`.`teams` (
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
     `id` int(3) primary key unique not null,
     `name` varchar(30),
     `link` varchar(30),
@@ -235,6 +245,8 @@ create table `nhl_api_remodel_RawPSA`.`timezones` (
 
 # timezone data (PSA)
 create table `nhl_api_remodel_PSA`.`timezones` (
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
     `id` varchar(30),
     `offset` int(3),
     `tz` varchar(5)
@@ -260,6 +272,8 @@ create table `nhl_api_remodel_RawPSA`.`venues` (
 
 # venue data (PSA)
 create table `nhl_api_remodel_PSA`.`venues` (
+    `queryNumber` mediumint primary key unique not null auto_increment,
+    `queryTime` date,
     `name` varchar(100),
     `link` varchar(100),
     `city` varchar(100),

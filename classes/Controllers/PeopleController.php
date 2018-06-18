@@ -14,7 +14,7 @@
  *  + People data are associated to Teams data by their currentTeam key
  */
 
-namespace NHL_API_Remodel\Models;
+namespace NHL_API_Remodel\Controllers;
 
 use PDO;
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the implementation for the NHL API ReModel's "GuzzleAPICall" class.
+ * This file contains the implementation for the NHL API ReModel's "Collector" class.
  *
  * PHP version 7
  *
@@ -11,29 +11,31 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  */
 
-namespace NHL_API_Remodel\API_Calls;
+namespace NHL_API_Remodel\Collectors;
 
 use GuzzleHttp;
 
 require_once 'vendor/autoload.php';
 
 /**
- * The GuzzleAPICall Class makes guzzle requests to an open NHL API and returns the results as JSON strings
+ * The Collector Class collects NHL data as raw strings from Guzzle API calls and returns the fetched data along with
+ * logging information
  *
  * @package NHL_API_ReModel
  */
-class GuzzleAPICall
+class Collector
 {
+    #TODO abstract $uriPrefix into a constant in this namespace
     protected $client;
-
+    public $uriPrefix = 'https://statsapi.web.nhl.com/';
+    
     /**
-     * builds a new GuzzleAPICall object
+     * builds a new Collector object
      */
     public function __construct()
     {
         $this->client = new GuzzleHttp\Client();
     }
-
 
     /**
      * sends a Guzzle API call and records the response as a string
@@ -44,12 +46,18 @@ class GuzzleAPICall
      *                              ex: APIWrapper("https://statsapi.web.nhl.com/api/v1/teams/", "teams");
      *                              returns a list of all teams in the 'teams' element of the JSON returned by the URI
      *                              https://statsapi.web.nhl.com/api/v1/teams/
-     * @return array                a two element array - first element is the string returned by the URI, the second
-     *                              is any filtering argument added by the user
+     * @return array                a five element array 
+     *                                  + $callString   the URI call string
+     *                                  + $filter       any filtering argument added, used for parsing JSON later
+     *                                  + $timeStamp    the current system time
+     *                                  + (string) $res->getBody() the JSON returned by the Guzzle call to $callString
+     *                                  + $errorMessage error messages
      */
     public function call($callString, $filter = NULL)
     {
-        $res = $this->client->request('GET', $callString);
-        return array((string)$res->getBody(),$filter);
+        $res          = $this->client->request('GET', $callString);
+        $errorMessage = ''; #TODO catch error messages for returned tuple
+        $timeStamp    = date('Y-m-d H:i:s');
+        return array($callString, $filter, $timeStamp, (string) $res->getBody(), $errorMessage);
     }
 }

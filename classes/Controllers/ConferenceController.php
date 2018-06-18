@@ -11,7 +11,7 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  */
 
-namespace NHL_API_Remodel\Models;
+namespace NHL_API_Remodel\Controllers;
 
 use PDO;
 
@@ -24,7 +24,7 @@ use PDO;
  *
  * @package NHL_API_ReModel
  */
-class ConferenceController extends APICalls
+class ConferenceController extends Controllers
 {
     protected $pdo;
 
