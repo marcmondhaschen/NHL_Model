@@ -18,9 +18,8 @@ use \NHL_API_Remodel\Collectors\Collector as Collector;
 /**
  * The ConferenceCollector Class fetches NHL conference data using canned Guzzle API requests.
  *
- * The ConferenceCollector Class fetches NHL conference data using canned Guzzle API requests. It returns a tuple with
- * the response and some logging information.
- *
+ * The ConferenceCollector Class fetches NHL conference data using its parent's 'call' function and preconstructed
+ * queries. These queries return RawPSAData objects or arrays of RawPSAData objects, intended for ingestion by 
  *
  * @package NHL_API_ReModel
  */
@@ -39,7 +38,7 @@ class ConferenceCollector extends Collector
      * Fetches a list of all conferences, including inactive conferences.
      * 
      * Fetches a list of all conferences, including inactive conferences, starting at 1 and incrementing by 1 until 
-     * an error is encountered. Returns an array of RawPSA data objects.
+     * an error is encountered. Returns an array of RawPSAData objects.
      *
      * @return array
      */

@@ -18,8 +18,10 @@ use GuzzleHttp;
 require_once 'vendor/autoload.php';
 
 /**
- * The Collector Class collects NHL data as raw strings from Guzzle API calls and returns the fetched data along with
- * logging information
+ * The Collector Class is used to manage API calls and their responses.
+ *
+ * The Collector Class is used to manage API calls and their responses. The Collector makes use of Guzzle to make and
+ * record GET requests.
  *
  * @package NHL_API_ReModel
  */
