@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file contains the implementation for the NHL API ReModel's "TeamController" class.
  *
  * PHP version 7

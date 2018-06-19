@@ -1,6 +1,9 @@
 *** IF YOU INTEND TO USE THIS CODE IN A PUBLIC ENVIRONMENT, ***
+
 *** CHANGE THE PASSWORD IN config/db.COPYinc.php and config/mysql_setupCOPY.sql  ***
+
 *** AND THEN RENAME BOTH FILES TO 'db.inc.php' and 'mysql_setup.sql' ***
+
 *** LOG IN TO YOUR LOCAL MYSQL SERVER AS ROOT AND RUN 'mysql_setup.sql' ***
 
 This project is a simple exhibition of an JSON API->MySQL ETL & database 

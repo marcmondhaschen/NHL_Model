@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the implementation for the NHL API ReModel's "Controller" class.
+ * This file contains the implementation for the NHL API ReModel's "ConferenceTableTransform" class.
  *
  * PHP version 7
  *
@@ -11,15 +11,16 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  */
 
-namespace NHL_API_Remodel\Controllers;
+namespace NHL_API_Remodel\TableTransforms;
 
 /**
- * The Collector Class collects NHL data as raw strings from Guzzle API calls and returns the fetched data along with
- * logging information
+ * The ConferenceTableTransform is used to turn conference RawPSAData data (JSON strings) into PSAData
+ * (associative arrays)
+ *
  *
  * @package NHL_API_ReModel
  */
-class Controller
+class ConferenceTableTransform extends TableTransform
 {
 
 }

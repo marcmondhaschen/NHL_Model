@@ -14,14 +14,13 @@
 namespace NHL_API_Remodel\Collectors;
 
 use GuzzleHttp;
-
-require_once 'vendor/autoload.php';
+use NHL_API_Remodel\DataTypes\RawPSAData;
 
 /**
  * The Collector Class is used to manage API calls and their responses.
  *
  * The Collector Class is used to manage API calls and their responses. The Collector makes use of Guzzle to make and
- * record GET requests.
+ * record GET requests and logging information into a returned RawPSAData object.
  *
  * @package NHL_API_ReModel
  */
@@ -29,14 +28,15 @@ class Collector
 {
     #TODO abstract $uriPrefix into a constant in this namespace
     protected $client;
-    public $uriPrefix = 'https://statsapi.web.nhl.com/';
-    
+    protected $uriPrefix;
+
     /**
-     * builds a new Collector object
+     * Builds a new Collector object
      */
     public function __construct()
     {
-        $this->client = new GuzzleHttp\Client();
+        $this->client    = new GuzzleHttp\Client();
+        $this->uriPrefix = "https://statsapi.web.nhl.com/";
     }
 
     /**
@@ -57,9 +57,11 @@ class Collector
      */
     public function call($callString, $filter = NULL)
     {
+
         $res          = $this->client->request('GET', $callString);
         $errorMessage = ''; #TODO catch error messages for returned tuple
         $timeStamp    = date('Y-m-d H:i:s');
-        return array($callString, $filter, $timeStamp, (string) $res->getBody(), $errorMessage);
+        $rawPSAData   = new RawPSAData($callString, $filter, $timeStamp, (string) $res->getBody(), $errorMessage);
+        return $rawPSAData;
     }
 }

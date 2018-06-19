@@ -10,6 +10,17 @@
     ],
     "homepage": "https://github.com/marcmondhaschen/NHL_Model",
     "license": "",
+    "autoload": {
+        "psr-4": {
+            "NHL_API_Remodel\\Collectors\\":"classes/Collectors/",
+            "NHL_API_Remodel\\Controllers\\":"classes/Controllers/",
+            "NHL_API_Remodel\\DataAgents\\":"classes/DataAgents/",
+            "NHL_API_Remodel\\DataTypes\\":"classes/DataTypes/",
+            "NHL_API_Remodel\\ProductionLoaders\\":"classes/ProductionLoaders/",
+            "NHL_API_Remodel\\TableTransforms\\":"classes/TableTransforms/",
+            "NHL_API_Remodel\\Tests\\":"classes/Tests/"
+        }
+    },
     "require": {
         "php": ">=7.0",
         "guzzlehttp/guzzle": "^6.3"

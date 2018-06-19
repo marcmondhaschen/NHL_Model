@@ -13,8 +13,6 @@
 
 namespace NHL_API_Remodel\Collectors;
 
-use \NHL_API_Remodel\Collectors\Collector as Collector;
-
 /**
  * The ConferenceCollector Class fetches NHL conference data using canned Guzzle API requests.
  *
@@ -25,13 +23,18 @@ use \NHL_API_Remodel\Collectors\Collector as Collector;
  */
 class ConferenceCollector extends Collector
 {
-    #TODO abstract $classUriSuffix into a constant in this namespace
-    public $classUriSuffix = 'api/v1/conferences/';
-    public $filter = 'conferences';
+    private $filter;
+    private $uriSuffix;
 
+    /**
+     * Builds a new ConferenceCollector object.
+     */
     public function __construct()
     {
+        #TODO abstract $classUriSuffix into a constant in this namespace
         parent::__construct();
+        $this->uriSuffix = 'api/v1/conferences/';
+        $this->filter    = 'conferences';
     }
 
     /**
@@ -44,22 +47,21 @@ class ConferenceCollector extends Collector
      */
     public function fetchAllConferences()
     {
-        $returnValues = array();
         #TODO convert return value to RawPSA data object
         #TODO catch error messages
-        $i = 1;
-        while($i > 10){
-            $callString = $this->callPrefix . $this->classUriSuffix . $i;
-            $errorMessage = '';
-            $returnValues[] = array($callString, $this->filter, call($callString, $filter), $errorMessage);
+        #TODO fix stop in while on error message from guzzle
+        $returnValues = array();
+        $i            = 1;
+        while ($i < 7) {
+            $callString     = $this->uriPrefix.$this->uriSuffix.$i;
+            $returnValues[] = $this->call($callString, $this->filter);
             ++$i;
         }
         return $returnValues;
     }
-    
+
     /**
-     *
-     * Fetch a list of active conferences.
+     * Fetches a list of active conferences.
      *
      * Returns an array of RawPSA data objects.
      *
@@ -69,15 +71,12 @@ class ConferenceCollector extends Collector
     {
         #TODO convert return value to RawPSA data object
         #TODO catch error messages
-        $callString = $this->callPrefix . $this->classUriSuffix;
-        $errorMessage = '';
-        $returnValue[] = array($callString, $this->filter, call($callString, $filter), $errorMessage);
-        return $returnValue;
+        $callString = $this->uriPrefix.$this->uriSuffix;
+        return $this->call($callString, $this->filter);
     }
 
     /**
-     *
-     * Fetch a list of all the conferences, starting at conference #1 and running unit an error message is encountered
+     * Fetches a list of all the conferences, starting at conference #1 and running unit an error message is encountered
      *
      * @return array
      */
@@ -85,14 +84,12 @@ class ConferenceCollector extends Collector
     {
         #TODO convert return value to RawPSA data object
         #TODO catch error messages
-        $callString = $this->callPrefix . $this->classUriSuffix . $i;
-        $errorMessage = '';
-        $returnValue[] = array($callString, $this->filter, call($callString, $filter), $errorMessage);
-        return $returnValue;
+        $callString = $this->uriPrefix.$this->classUriSuffix.$i;
+        return $this->call($callString, $this->filter);
     }
 
     /**
-     * sends a Guzzle API call and records the response as a string
+     * Sends a Guzzle API call and records the response as a string
      *
      * inherited from Collector class
      *
@@ -111,6 +108,6 @@ class ConferenceCollector extends Collector
      */
     public function call($callString, $filter = NULL)
     {
-        parent::call($callString, $filter);
+        return parent::call($callString, $filter);
     }
 }

@@ -11,7 +11,7 @@
  * @link https://github.com/marcmondhaschen/NHL_Model
  */
 
-namespace NHL_API_Remodel\Models;
+namespace NHL_API_Remodel;
 
 /**
  * The APICalls Class makes curl requests to an open API and returns the results as associative arrays

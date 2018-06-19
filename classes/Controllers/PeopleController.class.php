@@ -85,7 +85,7 @@ class PeopleController extends APICalls
         $i = 0;
 
         while ($i < $people_count) {
-            $people_array = APIWrapper("https://statsapi.web.nhl.com/api/v1/people/".$player_id_array[$i], "people");
+            $people_array = $this->APIWrapper("https://statsapi.web.nhl.com/api/v1/people/".$player_id_array[$i], "people");
 
             $id                 = $people_array[0]['id'];
             $fullName           = str_replace("'", "\'", $people_array[0]['fullName']);
