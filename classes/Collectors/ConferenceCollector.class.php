@@ -13,6 +13,8 @@
 
 namespace NHL_API_Remodel\Collectors;
 
+use NHL_API_Remodel\DataTypes\RawPSAData;
+
 /**
  * The ConferenceCollector Class fetches NHL conference data using canned Guzzle API requests.
  *
