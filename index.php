@@ -1,6 +1,7 @@
 <?php
 /**
  * This file is a test page for the NHL API Remodel Project
+ *
  * Future versions of this page will invite users to update and peruse a local copy of the NHL's open API database
  *
  * PHP version 7
@@ -16,31 +17,31 @@
  *  + People data are associated to Teams data by their currentTeam key
  */
 
-include 'config/db.inc.php';
-include 'classes/People/PeopleController.php';
-
-use NHL_API_Remodel\Models\PeopleController as PeopleController;
-
-$people    = new PeopleController($pdo);
-$people->updatePeopleList();
-$peopleList = $people->getPeopleListAll();
-?>
 
 
+///*test collector class*/
+//require "vendor/autoload.php";
+//use NHL_API_Remodel\Collectors\Collector;
+//$caller = new Collector();
+//$callString = 'https://statsapi.web.nhl.com/api/v1/teams';
+//$catchArray = $caller->call($callString,'teams');
+//echo "<pre>";print_r($catchArray);echo "</pre>";
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>NHL Model</title>
-        <meta name="description" content="NHL Model">
-        <link rel="stylesheet" href="css/custom.css">
-    </head>
+///*test conferencecollector class */
+//require "vendor/autoload.php";
+//use NHL_API_Remodel\Collectors\ConferenceCollector;
+//$caller = new ConferenceCollector();
+//$catchArray = $caller->fetchCurrentConferences();
+//echo "<pre>";print_r($catchArray);echo "</pre>";
 
-    <body>
-        <div>
-            <?php echo "<pre>";print_r($peopleList);echo "</pre>"; ?>
-        </div>
-        <script src="js/custom.js"></script>
-    </body>
-</html>
+///*test RawPSADataAgent class*/
+require "vendor/autoload.php";
+require_once 'config/db.inc.php';
+
+use NHL_API_Remodel\Collectors\ConferenceCollector;
+use NHL_API_Remodel\DataAgents\RawPSADataAgent;
+$collector = new ConferenceCollector();
+$RawPSAData = $collector->fetchCurrentConferences();
+$RawPSADataAgent = new RawPSADataAgent($pdo);
+echo "derp";
+

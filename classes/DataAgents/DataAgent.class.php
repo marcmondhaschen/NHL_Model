@@ -25,4 +25,15 @@ require_once 'vendor/autoload.php';
  */
 class DataAgent
 {
+    protected $pdo;
+
+    /**
+     * Builds a new DataAgent object
+     *
+     * @param PDO $pdo
+     */
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
 }

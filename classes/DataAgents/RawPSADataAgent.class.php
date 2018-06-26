@@ -21,4 +21,11 @@ namespace NHL_API_Remodel\DataAgents;
  */
 class RawPSADataAgent extends DataAgent
 {
+    /**
+     * Creates a new RawPSADataAgent object
+     */
+    public function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 }
