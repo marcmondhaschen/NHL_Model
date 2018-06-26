@@ -13,6 +13,8 @@
 
 namespace NHL_API_Remodel\DataAgents;
 
+use PDO;
+
 /**
  *
  * The RawPSADataAgent class is responsible for passing production data to and from MySQL tables
@@ -27,5 +29,15 @@ class RawPSADataAgent extends DataAgent
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
+    }
+
+    /**
+     * Returns all the 'conferences' records in the raw PSA
+     */
+    public function getConferencesAll()
+    {
+        $queryString = "select `id`,`name`,`link`,`abbreviation`,`shortName`,`active` from `nhl_model`.`conferences` order by `name`";
+        $result = $this->pdo->query($queryString);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 }

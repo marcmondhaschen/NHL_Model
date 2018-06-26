@@ -13,6 +13,8 @@
 
 namespace NHL_API_Remodel\DataAgents;
 
+use PDO;
+
 /**
  *
  * The PSADataAgent class is responsible for passing PSA data to and from MySQL tables
@@ -21,4 +23,8 @@ namespace NHL_API_Remodel\DataAgents;
  */
 class PSADataAgent extends DataAgent
 {
+    public function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 }

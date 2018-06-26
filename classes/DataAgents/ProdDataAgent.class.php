@@ -13,6 +13,8 @@
 
 namespace NHL_API_Remodel\DataAgents;
 
+use PDO;
+
 /**
  *
  * The ProdDataAgent class is responsible for passing production data to and from MySQL tables
@@ -21,4 +23,11 @@ namespace NHL_API_Remodel\DataAgents;
  */
 class ProdDataAgent extends DataAgent
 {
+    /**
+     * Builds a new ProdDataAgent object
+     */
+    public function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 }

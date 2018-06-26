@@ -42,6 +42,4 @@ use NHL_API_Remodel\Collectors\ConferenceCollector;
 use NHL_API_Remodel\DataAgents\RawPSADataAgent;
 $collector = new ConferenceCollector();
 $RawPSAData = $collector->fetchCurrentConferences();
-$RawPSADataAgent = new RawPSADataAgent($pdo);
-echo "derp";
-
+$RawPSADataAgent = new RawPSADataAgent($rawPSAPDO);
